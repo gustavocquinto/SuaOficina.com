@@ -1,0 +1,81 @@
+.dash-texts{
+    font-size: 24px;
+    color: #353535;
+    font-family: 'Nunito';
+}
+
+
+.dash-info-list p{
+    font-size: 25px;
+    font-family: 'Nunito';
+    margin: 10px;
+}
+
+
+.dash-info-background{
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 1%;
+}
+
+.dash-info-background img{
+    max-width: 400px;
+    display: inline-block;
+    padding: 20px;
+}
+
+.dash-info-background img:hover{
+    transform: scale(2);
+}
+
+.dash-info-edit h2{
+    margin-bottom: 10px;
+}
+
+.summary-budget{
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: #2D3573;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.summary-budget:hover{
+    background-color: none;
+}
+
+.dash-info-edit button{
+    background-color: #2D3573;
+    display: inline-block;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    width: 261px;
+    height: 81px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    margin: 10px;
+    
+}
+
+.dash-info-edit button:hover{
+    background-color: #c7cadd;
+}
+
+.main-services{
+display: flex;
+  width: 90%;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.main-services p{
+    padding: 10px;
+}

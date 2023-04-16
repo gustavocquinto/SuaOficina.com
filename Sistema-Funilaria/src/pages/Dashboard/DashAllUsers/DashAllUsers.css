@@ -1,0 +1,75 @@
+.dash-title{
+    height: 80px;
+    color: #282F66;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+
+.dash-card-background{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin-bottom: -50px;
+}
+
+.dash-content-background{
+    width: 95%;
+    height: 150px;
+    background-color: #FDFCFF;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+
+.dash-content-text{
+    width: 58%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 20px;
+    /* background-color: red; */
+}
+
+.dash-content-text h1{
+    color: #353535;
+    font-size: 28px;
+    font-family: 'Nunito';
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.dash-content-text p{
+    color: #000000;
+    font-size: 18px;
+    font-family: 'Nunito';
+    font-weight: 600;
+}
+
+.dash-content-btn{
+    width: 38%;
+    height: 63%;
+    margin-left: 10px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+}
+
+.dash-content-btn p{
+    color: #353535;
+    font-size: 18px;
+    font-family: 'Nunito';
+    font-weight: 600;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.dash-content-btn p:hover{
+    color:#282F66;
+    font-weight: 600;
+}
