@@ -96,7 +96,7 @@ export default class Login extends Component {
                                     <input name="password" type="password" placeholder="Senha" value={this.state.password} onChange={this.atualizaStateCampo} />
                                 </div>
 
-                                <button >Entrar</button>
+                                <button><Link to="/home">Entrar</Link></button>
                             </div>
                             </form>
                             <div className="login-form-btns">
