@@ -99,9 +99,6 @@ export default class Login extends Component {
                                 <button >Entrar</button>
                             </div>
                             </form>
-                            <div className="login-form-btns">
-                                <p>Você não tem uma conta? <Link to="/register">Registre-se</Link></p>
-                            </div>
                         </div>
                     </div>
                    

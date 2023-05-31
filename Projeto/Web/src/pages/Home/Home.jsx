@@ -51,39 +51,7 @@ export default class Home extends Component {
             .catch(erro => console.log(erro));
     };
 
-    cadastrarCarro = (event) => {
-        event.preventDefault();
-        let carro = {
-            idUser: parseJwt().jti,
-            modelName: this.state.carro.modelName,
-            brandName: this.state.carro.brandName,
-            year: this.state.carro.year,
-            color: this.state.carro.color,
-            licensePlate: this.state.carro.licensePlate
     
-        };
-
-        axios.post("http://localhost:5000/api/Vehicles", carro)
-
-            .then((resposta) => {
-                if (resposta.status === 201) {
-                    swal("Sucesso!", `O Veículo foi cadastrado com sucesso!`, "success").then(function () {
-                        window.location = "/Home";
-                    });;
-                }
-            })
-
-            .catch((erro) => swal("Ocorreu um erro :(", `${erro}`, "error"));
-    };
-
-    updateState = (campo) => {
-        this.setState((prevState) => ({
-            carro: {
-                ...prevState.carro,
-                [campo.target.name]: campo.target.value,
-            },
-        }));
-    };
 
    
 
@@ -103,9 +71,6 @@ export default class Home extends Component {
                 <Sidebar>
                     <div className="home-title">
                         <h1>Meus Veículos</h1>
-                    </div>
-                    <div className="home-btn">
-                        <button onClick={() => this.setState({ isModalOpen: true })}>Novo Veículo</button>
                     </div>
                     <div className="home-card-background">
                         {
@@ -136,56 +101,7 @@ export default class Home extends Component {
 
 
 
-                {/* Modal */}
-                <Modal isOpen={this.state.isModalOpen}>
-                    <div className="modal-overlay">
-                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
-                        <div className="modal-card-background" id="modal-card">
-                            <div className="modal-card-close">
-                                <img src={close} alt="Ícone para fechar o modal" draggable="false" onClick={() => this.cancelaModal()} />
-                            </div>
 
-                            <div className="modal-vehicle-card-form-background">
-                                <div className="modal-vehicle-card-form">
-                                    <div className="modal-vehicle-card-form-text">
-                                        <h1>Adicionar um novo veículo</h1>
-                                        <p>Adicione as informações do seu Veículo</p>
-                                    </div>
-                                    <form onSubmit={this.cadastrarCarro} >
-                                        <div className="modal-vehicle-card-form-input-background">
-                                            <div className="modal-vehicle-card-form-input">
-                                                <input type="text" placeholder="Insira o Modelo de seu Veículo" name="modelName" value={this.cadastrarCarro.modelName}
-                                                    onChange={this.updateState} required/>
-                                            </div>
-
-                                            <div className="modal-vehicle-card-form-input">
-                                                <input type="text" placeholder="Marca" name="brandName" value={this.cadastrarCarro.brandName}
-                                                    onChange={this.updateState} required/>
-                                            </div>
-
-                                            <div className="modal-vehicle-card-form-input">
-                                                <input type="year" placeholder="Ano"  name="year" value={this.cadastrarCarro.year}
-                                                    onChange={this.updateState} required />
-                                            </div>
-
-                                            <div className="modal-vehicle-card-form-input">
-                                                <input type="text" placeholder="Cor"  name="color" value={this.cadastrarCarro.color}
-                                                    onChange={this.updateState} required/>
-                                            </div>
-
-                                            <div className="modal-vehicle-card-form-input">
-                                                <input type="text" placeholder="Placa"  name="licensePlate" value={this.cadastrarCarro.licensePlate}
-                                                    onChange={this.updateState}required />
-                                            </div>
-
-                                            <button type="submit">Adicionar Veículo</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
             </>
         );
     }

@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { parseJwt } from '../../services/Auth';
-import swal from 'sweetalert'
+import swal from 'sweetalert';
 import InputMask from "react-input-mask";
- 
 
 // Styles
 import '../../assets/styles/reset.css';
@@ -23,90 +22,85 @@ class Profile extends Component {
         super(props);
         this.state = {
             example: '',
-            getUserInfo: [],
+            getUserInfo: {},
             editUser: {
-                _method: "PATCH",
                 username: '',
                 email: '',
                 phoneNumber: '',
             },
             isModalOpen: false
-        }
+        };
     }
 
-    getUserInfo = (user) => {
-        axios('http://localhost:5000/api/Users/' + parseJwt().jti, {
+    componentDidMount() {
+        this.getUserInfo();
+        document.title = "Meu Perfil";
+    }
+
+    getUserInfo = () => {
+        axios.get(`http://localhost:5000/api/Users/${parseJwt().jti}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('user-token')
             }
-
         })
             .then(resposta => {
                 if (resposta.status === 200) {
-                    this.setState({ getUserInfo: resposta.data })
-                    console.log(this.state.getUserInfo)
+                    this.setState({ getUserInfo: resposta.data });
+                    console.log(this.state.getUserInfo);
                 }
             })
             .catch(erro => console.log(erro));
     };
 
-
     editUser = (event) => {
         event.preventDefault();
 
-        let editUser = {
-            userId: parseJwt().jti,
-            username: this.state.editUser.username,
-            email: this.state.editUser.email,
-            phoneNumber: this.state.editUser.phoneNumber,
+        const { username, email, phoneNumber } = this.state.editUser;
+        const editUser = {
+            username: username || this.state.getUserInfo.username,
+            email: email || this.state.getUserInfo.email,
+            phoneNumber: phoneNumber || this.state.getUserInfo.phoneNumber,
         };
 
-        axios.patch('http://localhost:5000/api/Users/', editUser)
+        axios.patch(`http://localhost:5000/api/Users/${parseJwt().jti}`, editUser, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
             .then((resposta) => {
-                if (resposta.status === 204) {
-                    swal("Sucesso!", `O Usuário " foi editada com sucesso!`, "success").then(function () {
+                if (resposta.status === 200) {
+                    swal("Sucesso!", `O Usuário foi editado com sucesso!`, "success").then(() => {
                         window.location = "/Home";
                         console.log(resposta);
-                    });;
+                    });
                 }
             })
             .catch((erro) => swal("Ocorreu um erro :(", `${erro}`, "error"));
     };
 
-
     updateState = (campo) => {
+        const { name, value } = campo.target;
         this.setState((prevState) => ({
             editUser: {
                 ...prevState.editUser,
-                [campo.target.name]: campo.target.value,
+                [name]: value,
             },
         }));
     };
 
-
-
-    componentDidMount() {
-        this.getUserInfo();
-        document.title = "Meu Perfil"
-    };
-
-    atualizaStateCampo = (campo) => {
-        this.setState({ [campo.target.name]: campo.target.value })
-    };
-
-
     cancelaModal = () => {
-        this.setState({ isModalOpen: false })
-    }
+        this.setState({ isModalOpen: false });
+    };
 
     render() {
+        const { getUserInfo, isModalOpen } = this.state;
+
         return (
             <>
                 <Sidebar>
-
                     <div className="profile-header">
                         <div className="profile-title">
-                            <h1>{this.state.getUserInfo.username}</h1>
+                            <h1>{getUserInfo.username}</h1>
                         </div>
                         <div className="profile-texts">
                             <p>Meu Perfil</p>
@@ -116,9 +110,9 @@ class Profile extends Component {
                     <div className="profile-info-background">
                         <div className="profile-info-list">
                             <h2>Informações Pessoais:</h2>
-                            <p>Nome: {this.state.getUserInfo.username}</p>
-                            <p>Email: {this.state.getUserInfo.email}</p>
-                            <p>Telefone: {this.state.getUserInfo.phoneNumber}</p>
+                            <p>Nome: {getUserInfo.username}</p>
+                            <p>Email: {getUserInfo.email}</p>
+                            <p>Telefone: {getUserInfo.phoneNumber}</p>
                         </div>
 
                         <div className="profile-info-edit">
@@ -128,10 +122,8 @@ class Profile extends Component {
                     </div>
                 </Sidebar>
 
-
-
                 {/* Modal */}
-                <Modal isOpen={this.state.isModalOpen}>
+                <Modal isOpen={isModalOpen}>
                     <div className="modal-overlay">
                         <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
                         <div className="modal-card-background" id="modal-card">
@@ -148,15 +140,15 @@ class Profile extends Component {
                                     <form onSubmit={this.editUser}>
                                         <div className="modal-profile-card-form-input-background">
                                             <div className="modal-profile-card-form-input">
-                                                <input type="text" name="username" placeholder={this.state.getUserInfo.username} value={this.state.username} onChange={this.updateState} />
+                                                <input type="text" name="username" placeholder={getUserInfo.username} value={this.state.editUser.username} onChange={this.updateState} />
                                             </div>
 
                                             <div className="modal-profile-card-form-input">
-                                                <input type="email" name="email" placeholder={this.state.getUserInfo.email} value={this.state.email} onChange={this.updateState} />
+                                                <input type="email" name="email" placeholder={getUserInfo.email} value={this.state.editUser.email} onChange={this.updateState} />
                                             </div>
 
                                             <div className="modal-profile-card-form-input">
-                                                <InputMask mask="(99) 99999-9999" type="text" name="phoneNumber" placeholder={this.state.getUserInfo.phoneNumber} value={this.state.phoneNumber} onChange={this.updateState} />
+                                                <InputMask mask="(99) 99999-9999" type="text" name="phoneNumber" placeholder={getUserInfo.phoneNumber} value={this.state.editUser.phoneNumber} onChange={this.updateState} />
                                             </div>
                                             <button type="submit">Salvar</button>
                                         </div>
@@ -167,7 +159,7 @@ class Profile extends Component {
                     </div>
                 </Modal>
             </>
-        )
+        );
     }
 }
 

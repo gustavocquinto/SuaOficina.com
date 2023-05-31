@@ -198,17 +198,7 @@ class UserVehiclePage extends Component {
 
                                     <form onSubmit={this.cadastrarCarro}>
                                         <div className="modal-vehicle-card-form-input">
-                                            <input
-                                                type="text"
-                                                name="brandName"
-                                                value={cadastrarCarro.brandName}
-                                                onChange={this.handleBrandChange}
-                                                placeholder="Pesquisar Marca"
-                                                className="modal-vehicle-card-form-input"
-                                                autoComplete="off"
-                                                required
-                                                
-                                            />
+                            
                                             <select
                                                 name="brandName"
                                                 value={cadastrarCarro.brandName}
@@ -229,16 +219,6 @@ class UserVehiclePage extends Component {
                                         </div>
 
                                         <div className="modal-vehicle-card-form-input">
-                                            <input
-                                                type="text"
-                                                name="modelName"
-                                                value={cadastrarCarro.modelName}
-                                                onChange={this.updateState}
-                                                placeholder="Pesquisar Modelo"
-                                                className="modal-vehicle-card-form-input"
-                                                autoComplete="off"
-                                                required
-                                            />
                                             <select
                                                 name="modelName"
                                                 value={cadastrarCarro.modelName}
