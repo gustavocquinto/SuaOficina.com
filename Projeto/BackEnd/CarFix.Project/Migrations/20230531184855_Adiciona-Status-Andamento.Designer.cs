@@ -4,14 +4,16 @@ using CarFix.Project.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarFix.Project.Migrations
 {
     [DbContext(typeof(CarFixContext))]
-    partial class CarFixContextModelSnapshot : ModelSnapshot
+    [Migration("20230531184855_Adiciona-Status-Andamento")]
+    partial class AdicionaStatusAndamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -16,5 +16,6 @@ namespace CarFix.Project.Domains
 
         public ICollection<Vehicle>? Vehicles { get; set; }
         public ICollection<Service>? Services { get; set; }
+        public string Teste { get; set; }
     }
 }

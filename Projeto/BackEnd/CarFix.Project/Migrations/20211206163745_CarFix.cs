@@ -30,7 +30,7 @@ namespace CarFix.Project.Migrations
                     Password = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
                     UserType = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
                     PhoneNumber = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "DateTime", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "DateTime", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace CarFix.Project.Migrations
                     Color = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
                     VehicleImage = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
                     IdUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                 },
                 constraints: table =>
                 {

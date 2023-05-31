@@ -4,14 +4,16 @@ using CarFix.Project.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarFix.Project.Migrations
 {
     [DbContext(typeof(CarFixContext))]
-    partial class CarFixContextModelSnapshot : ModelSnapshot
+    [Migration("20230531021526_colunateste")]
+    partial class colunateste
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,10 +216,6 @@ namespace CarFix.Project.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
-
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
 
                     b.Property<string>("VehicleImage")
                         .HasMaxLength(200)

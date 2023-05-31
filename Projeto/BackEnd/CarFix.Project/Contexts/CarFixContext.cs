@@ -46,6 +46,14 @@ namespace CarFix.Project.Contexts
             modelBuilder.Entity<User>().Property(x => x.UserType).HasColumnType("varchar(20)");
             modelBuilder.Entity<User>().Property(x => x.UserType).IsRequired();
 
+            modelBuilder.Entity<User>().Property(x => x.Teste).HasMaxLength(20);
+            modelBuilder.Entity<User>().Property(x => x.Teste).HasColumnType("varchar(20)");
+            modelBuilder.Entity<User>().Property(x => x.Teste).IsRequired();
+
+            modelBuilder.Entity<Vehicle>().Property(x => x.Status).HasMaxLength(20);
+            modelBuilder.Entity<Vehicle>().Property(x => x.Status).HasColumnType("int");
+            modelBuilder.Entity<Vehicle>().Property(x => x.Status).IsRequired();
+
             modelBuilder.Entity<User>().Property(x => x.CreationDate).HasColumnType("DateTime");
             #endregion
 

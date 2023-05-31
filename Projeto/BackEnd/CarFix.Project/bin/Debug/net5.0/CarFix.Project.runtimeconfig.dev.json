@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\ileon\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\ileon\\.nuget\\packages"
+      "C:\\Users\\gutoc\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\gutoc\\.nuget\\packages"
     ]
   }
 }

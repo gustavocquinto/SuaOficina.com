@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarFix.Project.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,5 +20,6 @@ namespace CarFix.Project.Domains
         public virtual User? User { get; set; }
 
         public virtual Budget? Budget { get; set; }
+        public EnServiceStatus Status { get;  set; }
     }
 }

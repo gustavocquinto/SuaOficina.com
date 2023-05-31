@@ -7,8 +7,8 @@ namespace CarFix.Project.Enum
 {
     public enum EnServiceStatus
     {
-        Finalizado = 0,
+        Pendente = 0,
         Andamento = 1,
-        Pendente = 2
+        Finalizado = 2
     }
 }

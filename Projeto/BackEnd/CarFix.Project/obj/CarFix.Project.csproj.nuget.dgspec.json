@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ileon\\Downloads\\CarFix-main\\CarFix-main\\BackEnd\\CarFix.Project\\CarFix.Project.csproj": {}
+    "C:\\Users\\gutoc\\source\\repos\\SuaOficina.com\\Projeto\\BackEnd\\CarFix.Project\\CarFix.Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ileon\\Downloads\\CarFix-main\\CarFix-main\\BackEnd\\CarFix.Project\\CarFix.Project.csproj": {
+    "C:\\Users\\gutoc\\source\\repos\\SuaOficina.com\\Projeto\\BackEnd\\CarFix.Project\\CarFix.Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ileon\\Downloads\\CarFix-main\\CarFix-main\\BackEnd\\CarFix.Project\\CarFix.Project.csproj",
+        "projectUniqueName": "C:\\Users\\gutoc\\source\\repos\\SuaOficina.com\\Projeto\\BackEnd\\CarFix.Project\\CarFix.Project.csproj",
         "projectName": "CarFix.Project",
-        "projectPath": "C:\\Users\\ileon\\Downloads\\CarFix-main\\CarFix-main\\BackEnd\\CarFix.Project\\CarFix.Project.csproj",
-        "packagesPath": "C:\\Users\\ileon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ileon\\Downloads\\CarFix-main\\CarFix-main\\BackEnd\\CarFix.Project\\obj\\",
+        "projectPath": "C:\\Users\\gutoc\\source\\repos\\SuaOficina.com\\Projeto\\BackEnd\\CarFix.Project\\CarFix.Project.csproj",
+        "packagesPath": "C:\\Users\\gutoc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gutoc\\source\\repos\\SuaOficina.com\\Projeto\\BackEnd\\CarFix.Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ileon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\gutoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

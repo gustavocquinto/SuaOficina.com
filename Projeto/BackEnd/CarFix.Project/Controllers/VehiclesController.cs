@@ -140,6 +140,7 @@ namespace CarFix.Project.Controllers
                 newVehicle.Color = newVehicleDTO.Color;
                 newVehicle.VehicleImage = newVehicleDTO.VehicleImage;
                 newVehicle.IdUser = newVehicleDTO.IdUser;
+                newVehicle.Status = newVehicleDTO.Status;
 
                 _unitOfWork.VehicleRepository.Register(newVehicle);
                 _unitOfWork.Save();
