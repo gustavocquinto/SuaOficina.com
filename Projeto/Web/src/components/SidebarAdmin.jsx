@@ -51,17 +51,17 @@ class Sidebar extends Component {
 
                             <div className="sidebar-content-btns">
                                 <div className="sidebar-content-btns-main">
-                                    <Link to="/home" id="vehicles" className="sidebar-content-btn">
-                                        <p>Meus Veículos</p>
+                                    <Link to="/dashallbudget" id="vehicles" className="sidebar-content-btn">
+                                        <p>Orçamentos</p>
                                     </Link>
 
-                                    <Link to="/profile" id="profile" className="sidebar-content-btn">
-                                        <p>Meu Perfil</p>
+                                    <Link to="/dashallusers" id="profile" className="sidebar-content-btn">
+                                        <p>Usuarios</p>
                                     </Link>
                                 </div>
                                 
-                                <Link to="/" className="sidebar-content-btn" >
-                                    <p onClick={() => this.funcaoLogout()}>Deslogar</p>
+                                <Link to="/" className="sidebar-content-btn">
+                                <p onClick={() => this.funcaoLogout()}>Deslogar</p>
                                 </Link>
                             </div>
                             

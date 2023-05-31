@@ -1,7 +1,10 @@
 // Libs
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from "axios";
+import { parseJwt } from '../../services/Auth';
+import swal from 'sweetalert'
+import InputMask from "react-input-mask";
+ 
 
 // Styles
 import '../../assets/styles/reset.css';
@@ -16,26 +19,94 @@ import Modal from '../../components/Modal';
 import close from '../../assets/images/modals/modal-close-icon.svg';
 
 class Profile extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            example : '',
-
-            isModalOpen : false
+            example: '',
+            getUserInfo: [],
+            editUser: {
+                _method: "PATCH",
+                username: '',
+                email: '',
+                phoneNumber: '',
+            },
+            isModalOpen: false
         }
     }
 
+    getUserInfo = (user) => {
+        axios('http://localhost:5000/api/Users/' + parseJwt().jti, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user-token')
+            }
+
+        })
+            .then(resposta => {
+                if (resposta.status === 200) {
+                    this.setState({ getUserInfo: resposta.data })
+                    console.log(this.state.getUserInfo)
+                }
+            })
+            .catch(erro => console.log(erro));
+    };
+
+
+    editUser = (event) => {
+        event.preventDefault();
+
+        let editUser = {
+            userId: parseJwt().jti,
+            username: this.state.editUser.username,
+            email: this.state.editUser.email,
+            phoneNumber: this.state.editUser.phoneNumber,
+        };
+
+        axios.patch('http://localhost:5000/api/Users/', editUser)
+            .then((resposta) => {
+                if (resposta.status === 204) {
+                    swal("Sucesso!", `O Usuário " foi editada com sucesso!`, "success").then(function () {
+                        window.location = "/Home";
+                        console.log(resposta);
+                    });;
+                }
+            })
+            .catch((erro) => swal("Ocorreu um erro :(", `${erro}`, "error"));
+    };
+
+
+    updateState = (campo) => {
+        this.setState((prevState) => ({
+            editUser: {
+                ...prevState.editUser,
+                [campo.target.name]: campo.target.value,
+            },
+        }));
+    };
+
+
+
+    componentDidMount() {
+        this.getUserInfo();
+        document.title = "Meu Perfil"
+    };
+
+    atualizaStateCampo = (campo) => {
+        this.setState({ [campo.target.name]: campo.target.value })
+    };
+
+
     cancelaModal = () => {
-        this.setState({ isModalOpen : false })
+        this.setState({ isModalOpen: false })
     }
 
     render() {
-        return(
+        return (
             <>
                 <Sidebar>
+
                     <div className="profile-header">
                         <div className="profile-title">
-                            <h1>Leonardo Rodrigues</h1>
+                            <h1>{this.state.getUserInfo.username}</h1>
                         </div>
                         <div className="profile-texts">
                             <p>Meu Perfil</p>
@@ -45,16 +116,14 @@ class Profile extends Component {
                     <div className="profile-info-background">
                         <div className="profile-info-list">
                             <h2>Informações Pessoais:</h2>
-                            <p>Nome: Leonardo Rodrigues</p>
-                            <p>Email: leonardo@darede.com</p>
-                            <p>Telefone: (11) 5555-5555</p>
-                            <p>Celular: (11) 5555-5555</p>
+                            <p>Nome: {this.state.getUserInfo.username}</p>
+                            <p>Email: {this.state.getUserInfo.email}</p>
+                            <p>Telefone: {this.state.getUserInfo.phoneNumber}</p>
                         </div>
 
                         <div className="profile-info-edit">
                             <h2>Editar Informações:</h2>
-                            <button onClick={() => this.setState({isModalOpen : true})}>Editar Informações Pessoais</button>
-                            <button>Alterar minha Senha</button>
+                            <button onClick={() => this.setState({ isModalOpen: true })}>Editar Informações Pessoais</button>
                         </div>
                     </div>
                 </Sidebar>
@@ -76,26 +145,22 @@ class Profile extends Component {
                                         <h1>Editar Perfil</h1>
                                         <p>Edite as informações pessoais do seu Perfil</p>
                                     </div>
+                                    <form onSubmit={this.editUser}>
+                                        <div className="modal-profile-card-form-input-background">
+                                            <div className="modal-profile-card-form-input">
+                                                <input type="text" name="username" placeholder={this.state.getUserInfo.username} value={this.state.username} onChange={this.updateState} />
+                                            </div>
 
-                                    <div className="modal-profile-card-form-input-background">
-                                        <div className="modal-profile-card-form-input">
-                                            <input type="text" value="Leonardo Rodrigues" />
-                                        </div>
-                                        
-                                        <div className="modal-profile-card-form-input">
-                                            <input type="text" value="leonardo@darede.com" />
-                                        </div>
+                                            <div className="modal-profile-card-form-input">
+                                                <input type="email" name="email" placeholder={this.state.getUserInfo.email} value={this.state.email} onChange={this.updateState} />
+                                            </div>
 
-                                        <div className="modal-profile-card-form-input">
-                                            <input type="text" value="(11) 5555-5555" />
+                                            <div className="modal-profile-card-form-input">
+                                                <InputMask mask="(99) 99999-9999" type="text" name="phoneNumber" placeholder={this.state.getUserInfo.phoneNumber} value={this.state.phoneNumber} onChange={this.updateState} />
+                                            </div>
+                                            <button type="submit">Salvar</button>
                                         </div>
-
-                                        <div className="modal-profile-card-form-input">
-                                            <input type="text" value="(11) 5555-5555" />
-                                        </div>
-
-                                        <button>Salvar</button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

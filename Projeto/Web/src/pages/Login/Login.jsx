@@ -2,7 +2,8 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { parseJwt, userAuthentication } from '../../services/Auth';
+import { parseJwt } from '../../services/Auth';
+import swal from 'sweetalert'
 
 // Styles
 import "../../assets/styles/reset.css";
@@ -31,106 +32,42 @@ export default class Login extends Component {
 
 
     efetuaLogin = (event) => {
-
-        // Ignora o comportamento padrão do navegador (recarregar a página, por exemplo)
-
         event.preventDefault();
-
-        // Remove a frase de erro do state erroMensagem e define que a requisição está em andamento
-
         this.setState({ erroMensagem: '', isLoading: true });
-        // Define a URL e o corpo da requisição
-
-        axios.post('http://localhost:5000/api/login', {
-
+        axios.post('http://localhost:5000/api/Login', {
             email: this.state.email,
             password: this.state.password
 
         })
-            // Verifica o retorno da requisição
             .then(resposta => {
-
-                // Caso o status code seja 200,
 
                 if (resposta.status === 200) {
 
-                    // salva o token no localStorage,
-
                     localStorage.setItem('user-token', resposta.data.token);
-
-                    // exibe o token no console do navegador
-
-                    console.log('Meu token é: ' + resposta.data.token);
-
-                    // e define que a requisição terminou
-
                     this.setState({ isLoading: false })
-
-                    // Define a variável base64 que vai receber o payload do token
-
                     let base64 = localStorage.getItem('user-token').split('.')[1];
-
-                    // Exibe no console o valor presente na variável base64
-
-                    console.log(base64);
-
-                    // Exibe no console o valor convertido de base64 para string
-
-                    console.log(window.atob(base64));
-
-                    // Exibe no console o valor convertido da string para JSON
-
-                    console.log(JSON.parse(window.atob(base64)));
-
-                    // Exibe no console apenas o tipo de usuário logado
-                    console.log("teste:" + parseJwt().role);
-
-                    // Verifica se o tipo de usuário logado é Administrador
-
-                    // Se for, redireciona para a página de Tipos Eventos
-                    
-                    if (parseJwt().role === 'Administrador') {
-
-                        this.props.history.push('/Home');
-
-                        console.log('estou logado: ' + userAuthentication());
-
+                    if (parseJwt().role === '0') {
+                        this.props.history.push('/dashallbudget');
                     }
-
-
-
-                    // Se não for, redireciona para a página home
-
                     else {
-
-                        this.props.history.push('/')
-
+                        this.props.history.push('/Home')
                     }
-
                 }
 
             })
-
-            // Caso haja um erro,
-
-            .catch(() => {
-
-                // define o state erroMensagem com uma mensagem personalizada e que a requisição terminou
-
-                this.setState({ erroMensagem: 'E-mail ou senha inválidos! Tente novamente.', isLoading: false });
-
+            .catch((erro) => {
+                swal("Ocorreu um erro!", {erro}, "error");
             })
 
     }
 
-
-    // pode ser reutilizada em vários inputs diferentes
-
     atualizaStateCampo = (campo) => {
-
         this.setState({ [campo.target.name]: campo.target.value })
-
     };
+
+    componentDidMount(){
+        document.title = "Login"
+    }
 
 
     cancelaModal = () => {
@@ -163,7 +100,6 @@ export default class Login extends Component {
                             </div>
                             </form>
                             <div className="login-form-btns">
-                                <p onClick={() => this.setState({ isModalOpen: true })}>Esqueceu a Senha?</p>
                                 <p>Você não tem uma conta? <Link to="/register">Registre-se</Link></p>
                             </div>
                         </div>
@@ -177,35 +113,6 @@ export default class Login extends Component {
                         </div>
                     </div>
                 </div>
-
-
-                
-                {/* Modal */}
-                <Modal isOpen={this.state.isModalOpen}>
-                    <div className="modal-overlay">
-                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
-                        <div className="modal-card-background" id="modal-card">
-                            <div className="modal-card-close">
-                                <img src={close} alt="Ícone para fechar o modal" draggable="false" onClick={() => this.cancelaModal()} />
-                            </div>
-
-                            <div className="modal-card-form-background">
-                                <div className="modal-card-form">
-                                    <div className="modal-card-form-text">
-                                        <h1>Recuperar Senha</h1>
-                                        <p>Esqueceu sua senha? Insira os dados abaixo para recuperar suas credenciais</p>
-                                    </div>
-
-                                    <div className="modal-card-form-input">
-                                        <input type="email" placeholder="E-mail Cadastrado" />
-                                    </div>
-
-                                    <button>Recuperar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
             </>
         );
     }

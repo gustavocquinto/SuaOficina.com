@@ -1,7 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from "axios";
+import axios from 'axios';
 
 // Styles
 import '../../assets/styles/reset.css';
@@ -15,26 +15,48 @@ class Services extends Component {
     constructor(props){
         super(props);
         this.state = {
-            example : ''
+            example : '',
+            getVehicleServices: []
         }
     }
+
+    getVehicleServices = (user) => {
+        axios('http://localhost:5000/api/Services/Budget/845b4179-298a-48c0-a788-7261d66f2c60' ,{
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user-token')
+            }
+
+        })
+            .then(resposta => {
+                if (resposta.status === 200) {
+                    this.setState({ getVehicleServices: resposta.data })
+                    console.log(this.state.getVehicleServices)
+                }
+            })
+            .catch(erro => console.log(erro));
+    };
+
+    componentDidMount() {
+        this.getVehicleServices();
+        document.title = "Meus Veículos"
+    };
 
     render() {
         return(
             <>
                 <Sidebar>
                     <div className="services-header">
-                        <Link to="/budgets" className="services-header-back">{"< Chevrolet Onix"}</Link>
+                        <Link to="/budgets/" className="services-header-back">{"< Chevrolet Onix"}</Link>
                         <div className="services-title">
                             <h1>Orçamento #0001</h1>
                         </div>
                         <div className="services-name">
-                            <p>Chevrolet Onix</p>
+                            <p>Chevrolet Cobalt</p>
                         </div>
                         <div className="services-texts">
-                            <p>Placa: ABC-1234</p>
-                            <p>Data de Início: 20/10/2021</p>
-                            <p>Data de Término: 21/10/2021</p>
+                            <p>Placa: ACG-1734</p>
+                            <p>Data de Início: 15/12/2021</p>
+                            <p>Data de Término: 20/12/2021</p>
                         </div>
                     </div>
 
@@ -43,22 +65,21 @@ class Services extends Component {
 
                         {/* Cards */}
                         <div className="services-card-content-background">
-                            
-                            {/* Vocês vão colocar essa 'div' dentro do 'map' para conseguir listar */}
-                            <div className="services-content-background">
-                                <div className="services-content-text">
-                                    <h1>Troca de Rodas</h1>
-                                    <p className="services-content-text-descricao">Descrição: Substituir as rodas Padrão para Rodas Personalizadas</p>
-                                    <p>Data de Início: 20/10/2021</p>
-                                    <p>Data de Término: 21/10/2021</p>
+                                                       
+                          
+                                    <div className="services-content-background">
+                                    <div className="services-content-text">
+                                        <h1>Troca de Rodas</h1>
+                                        <p className="services-content-text-descricao">Descrição: Alteração e Personalização das Rodas do Cobalt</p>
+                                        <p>Tipo de Serviço: Mecânica</p>
+                                        <p>Data de Início: 15/12/2021</p>
+                                    </div>
+    
+                                    <div className="services-content-btn">
+                                         <p>Status: Finalizado</p>
+                                         <p className="services-content-btn-valor">Valor: R$ 872,28</p>
+                                    </div>
                                 </div>
-
-                                <div className="services-content-btn">
-                                     <p>Status: Finalizado</p>
-                                     <p className="services-content-btn-valor">Valor: R$ 820,76</p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </Sidebar>
