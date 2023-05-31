@@ -46,6 +46,7 @@ export default class Home extends Component {
                 if (resposta.status === 200) {
                     this.setState({ vehicleList: resposta.data })
                     console.log(this.state.vehicleList)
+                    this.statusServico = '';
                 }
             })
             .catch(erro => console.log(erro));
@@ -60,7 +61,6 @@ export default class Home extends Component {
             year: this.state.carro.year,
             color: this.state.carro.color,
             licensePlate: this.state.carro.licensePlate
-    
         };
 
         axios.post("http://localhost:5000/api/Vehicles", carro)
@@ -110,6 +110,15 @@ export default class Home extends Component {
                     <div className="home-card-background">
                         {
                             this.state.vehicleList.map(vehicle => {
+                                if (vehicle.status == 0){
+                                    this.statusServico = 'Pendente'
+                                }
+                                else if (vehicle.status == 1){
+                                    this.statusServico = 'Em Andamento'
+                                }
+                                else{
+                                    this.statusServico = 'Finalizado'
+                                }
                                 return (
                                     <Link className="home-content-background"  to={{
                                         pathname: "/budgets/" + vehicle.id,
@@ -124,6 +133,10 @@ export default class Home extends Component {
                                             <p>Cor: {vehicle.color}</p>
                                         </div>
 
+                                        <div  className="home-content-text">
+                                            <p> Status: {this.statusServico} </p>
+                                        </div>
+                                        
                                         <div className="home-content-btn">
                                             <p on>Visualizar Orçamentos</p>
                                         </div>
