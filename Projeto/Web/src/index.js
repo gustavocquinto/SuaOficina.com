@@ -18,7 +18,8 @@ import DashBudget from './pages/Dashboard/DashBudget'
 import DashAllBugdets from './pages/Dashboard/DashAllBudget';
 import DashAllUsers from './pages/Dashboard/DashAllUsers/DashAllUsers';
 import dashbudget2 from './pages/Dashboard/DashBudget2';
-import UserVehicles from './pages/UserVehicles/UserVehicles';
+import UserVehiclePage from './pages/UserVehiclePage/UserVehiclePage';
+
 
 const routing = (
   <Router>
@@ -35,7 +36,9 @@ const routing = (
         <Route exact path="/dashallusers" component={DashAllUsers} />
         <Route exact path="/notfound" component={NotFound} />
         <Route exact path="/dashbudget2/:id" component={dashbudget2} />
-        <Route path="/users/:userId/vehicles" component={UserVehicles} />
+        <Route path="/users/:userId/vehicles" component={UserVehiclePage} />
+
+
         
         <Redirect to="/notfound" />
       </Switch>

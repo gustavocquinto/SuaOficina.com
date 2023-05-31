@@ -1,16 +1,12 @@
-// Libs
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from "axios";
 import Modal from '../../../components/Modal';
 import swal from 'sweetalert';
 import { format } from 'date-fns';
 
-// Styles
 import './DashAllUsers.css';
-// Images
 import close from '../../../assets/images/modals/modal-close-icon.svg';
-
 import SidebarAdmin from '../../../components/SidebarAdmin';
 
 class DashAllUsers extends Component {
@@ -28,7 +24,9 @@ class DashAllUsers extends Component {
         userType: '',
         phoneNumber: '',
         creationDate: '',
-      }
+      },
+      redirectToVehicles: false,
+      selectedUserId: null,
     };
   }
 
@@ -87,7 +85,7 @@ class DashAllUsers extends Component {
   handleNewUserSubmit = (event) => {
     event.preventDefault();
     const { newUser } = this.state;
-    newUser.creationDate = format(new Date(), 'yyyy-MM-dd'); // Define a data atual
+    newUser.creationDate = format(new Date(), 'yyyy-MM-dd');
     axios.post('http://localhost:5000/api/Users', newUser)
       .then(resposta => {
         if (resposta.status === 201) {
@@ -99,11 +97,22 @@ class DashAllUsers extends Component {
       .catch(erro => swal("Ocorreu um erro :(", `${erro}`, "error"));
   }
 
+  selectUser = (userId) => {
+    this.setState({
+      selectedUserId: userId,
+      redirectToVehicles: true,
+    });
+  };
+
   render() {
-    const { searchQuery, UserList, isModalOpen, newUser } = this.state;
+    const { searchQuery, UserList, isModalOpen, newUser, redirectToVehicles, selectedUserId } = this.state;
     const filteredUsers = UserList.filter(user =>
       user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (redirectToVehicles && selectedUserId) {
+      return <Redirect to={`/users/${selectedUserId}/vehicles`} />;
+    }
 
     return (
       <>
@@ -123,17 +132,15 @@ class DashAllUsers extends Component {
 
           <div className="dash-card-background">
             {filteredUsers.map(user => (
-              <Link className="dash-content-background" key={user.id}>
+              <div className="dash-content-background" key={user.id} onClick={() => this.selectUser(user.id)}>
                 <div className="dash-content-text">
                   <h1>Usuário: {user.username}</h1>
                   <p>Email: {user.email}</p>
                   <p>Telefone: {user.phoneNumber}</p>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
-
-         
 
           {/* Modal */}
           <Modal isOpen={isModalOpen}>
