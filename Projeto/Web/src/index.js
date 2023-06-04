@@ -19,6 +19,8 @@ import DashAllBugdets from './pages/Dashboard/DashAllBudget';
 import DashAllUsers from './pages/Dashboard/DashAllUsers/DashAllUsers';
 import dashbudget2 from './pages/Dashboard/DashBudget2';
 import UserVehiclePage from './pages/UserVehiclePage/UserVehiclePage';
+import CreateServiceType from './pages/CreateServiceType/CreateServiceType';
+import CreateBudget from './pages/CreateBudget/CreateBudget';
 
 
 const routing = (
@@ -29,7 +31,7 @@ const routing = (
         <Route exact path="/register" component={Register} />
         <Route exact path="/home" component={Home} />
         <Route path="/budgets/:id" component={Budget} />
-        <Route path="/services" component={Services} />
+        <Route path="/services/:id" component={Services} />
         <Route exact path="/profile" component={Profile} />
         <Route  path="/dashbudget/:id" component={DashBudget} />
         <Route exact path="/dashallbudget" component={DashAllBugdets} />
@@ -37,6 +39,8 @@ const routing = (
         <Route exact path="/notfound" component={NotFound} />
         <Route exact path="/dashbudget2/:id" component={dashbudget2} />
         <Route path="/users/:userId/vehicles" component={UserVehiclePage} />
+        <Route path="/servicesType" component={CreateServiceType} />
+        <Route path="/createBudget" component={CreateBudget} />
 
 
         

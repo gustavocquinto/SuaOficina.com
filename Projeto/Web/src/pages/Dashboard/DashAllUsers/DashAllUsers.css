@@ -23,6 +23,14 @@
     overflow: auto;
     margin-bottom: -50px;
   }
+
+  .no-users-message {
+    text-align: center;
+    font-size: 25px;
+    color: #1E2352;
+    padding: 20px;
+  
+  }
   
   .dash-content-background {
     width: 95%;

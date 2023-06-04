@@ -1,14 +1,10 @@
-// Libs
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from "axios";
+import axios from 'axios';
 
-
-// Styles
 import '../../assets/styles/reset.css';
 import '../../assets/styles/pages/budget.css';
 
-// Components
 import Sidebar from '../../components/Sidebar';
 
 class Budget extends Component {
@@ -23,7 +19,7 @@ class Budget extends Component {
   componentDidMount() {
     this.getUserVehicle();
     this.getVehicleBudget();
-    document.title = "Orçamento do Veículo";
+    document.title = 'Orçamento do Veículo';
   }
 
   getUserVehicle = () => {
@@ -32,11 +28,11 @@ class Budget extends Component {
       .then((response) => {
         if (response.status === 200) {
           this.setState({ vehicle: response.data });
-          console.log("Veículo: ", response.data);
+          console.log('Veículo: ', response.data);
         }
       })
       .catch((error) => {
-        console.log("Erro ao obter o veículo: ", error);
+        console.log('Erro ao obter o veículo: ', error);
       });
   };
 
@@ -45,12 +41,14 @@ class Budget extends Component {
       .get('http://localhost:5000/api/Budgets/Vehicle/' + this.props.match.params.id)
       .then((response) => {
         if (response.status === 200) {
-          this.setState({ budgetList: response.data });
-          console.log("Lista de orçamentos: ", response.data);
+          const budgetList = response.data;
+          const budgets = Array.isArray(budgetList) ? budgetList : [budgetList];
+          this.setState({ budgetList: budgets });
+          console.log('Lista de orçamentos: ', budgets);
         }
       })
       .catch((error) => {
-        console.log("Erro ao obter os orçamentos: ", error);
+        console.log('Erro ao obter os orçamentos: ', error);
       });
   };
 
@@ -61,19 +59,38 @@ class Budget extends Component {
       return <p className="no-budget-message">Sem orçamentos para esse veículo</p>;
     }
 
-    return budgetList.map((budget) => (
-      <Link to="/services" className="budget-content-background" key={budget.id}>
-        <div className="budget-content-text">
-          <h1>{budget.id}</h1>
-          <p>Data de Início: {budget.visitDate}</p>
-          <p>Data de Término: {budget.finalizationDate}</p>
-        </div>
-        <div className="budget-content-btn">
-          <p>Status: {budget.status}</p>
-          <p className="budget-content-btn-valor">Valor: R$ {budget.totalValue}</p>
-        </div>
-      </Link>
-    ));
+    return budgetList.map((budget) => {
+      const budgetNumber = budget.id.toString().padStart(4, '0');
+      const startDate = new Date(budget.visitDate).toLocaleDateString();
+      const endDate = budget.finalizationDate
+        ? new Date(budget.finalizationDate).toLocaleDateString()
+        : 'ainda não finalizado';
+
+      return (
+        <Link
+          to={{
+            pathname: `/services/${budget.id}`,
+            state: {
+              budgetName: `Orçamento ${budgetNumber}`,
+              licensePlate: this.state.vehicle.licensePlate,
+              customerName: budget.customerName,
+            },
+          }}
+          className="budget-content-background"
+          key={budget.id}
+        >
+          <div className="budget-content-text">
+            <h1>#Orçamento {budgetNumber}</h1>
+            <p>Data de Início: {startDate}</p>
+            <p>Data de Término: {endDate}</p>
+          </div>
+          <div className="budget-content-btn">
+            <p>Status: {budget.status}</p>
+            <p className="budget-content-btn-valor">Valor: R$ {budget.totalValue}</p>
+          </div>
+        </Link>
+      );
+    });
   };
 
   render() {
@@ -96,7 +113,7 @@ class Budget extends Component {
         <Sidebar>
           <div className="budget-header">
             <Link to="/home" className="budget-header-back">
-              {"< Meus Veículos"}
+              {'< Meus Veículos'}
             </Link>
             <div className="budget-title">
               <h1>{brandName} {modelName}</h1>

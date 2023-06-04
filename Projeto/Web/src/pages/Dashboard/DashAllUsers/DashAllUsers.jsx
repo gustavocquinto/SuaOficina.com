@@ -36,13 +36,13 @@ class DashAllUsers extends Component {
         'Authorization': 'Bearer ' + localStorage.getItem('user-token')
       }
     })
-    .then(resposta => {
-      if (resposta.status === 200) {
-        this.setState({ UserList: resposta.data });
-        console.log(this.state.UserList);
-      }
-    })
-    .catch(erro => console.log(erro));
+      .then(resposta => {
+        if (resposta.status === 200) {
+          this.setState({ UserList: resposta.data });
+          console.log(this.state.UserList);
+        }
+      })
+      .catch(erro => console.log(erro));
   };
 
   delUser = (User) => {
@@ -50,13 +50,13 @@ class DashAllUsers extends Component {
       idUser: User.id
     });
     axios.delete('http://localhost:5000/api/Users?id=' + User.id)
-    .then(resposta => {
-      if (resposta.status === 204) {
-        swal("Sucesso!", "O Usuário foi deletado com Sucesso!", "success");
-      }
-    })
-    .catch((erro) => swal("Ocorreu um erro :(", `${erro}`, "error"))
-    .then(this.getAllUsers);
+      .then(resposta => {
+        if (resposta.status === 204) {
+          swal("Sucesso!", "O Usuário foi deletado com Sucesso!", "success");
+        }
+      })
+      .catch((erro) => swal("Ocorreu um erro :(", `${erro}`, "error"))
+      .then(this.getAllUsers);
   }
 
   componentDidMount() {
@@ -125,21 +125,25 @@ class DashAllUsers extends Component {
               value={searchQuery}
               onChange={this.handleSearchChange}
             />
-             <button className='dash-content-user' onClick={() => this.setState({ isModalOpen: true })}>
-            Criar um Usuário
-          </button>
+            <button className='dash-content-user' onClick={() => this.setState({ isModalOpen: true })}>
+              Criar um Usuário
+            </button>
           </div>
 
           <div className="dash-card-background">
-            {filteredUsers.map(user => (
-              <div className="dash-content-background" key={user.id} onClick={() => this.selectUser(user.id)}>
-                <div className="dash-content-text">
-                  <h1>Usuário: {user.username}</h1>
-                  <p>Email: {user.email}</p>
-                  <p>Telefone: {user.phoneNumber}</p>
+            {filteredUsers.length === 0 ? (
+              <div className="no-users-message">Nenhum usuário encontrado.</div>
+            ) : (
+              filteredUsers.map(user => (
+                <div className="dash-content-background" key={user.id} onClick={() => this.selectUser(user.id)}>
+                  <div className="dash-content-text">
+                    <h1>Usuário: {user.username}</h1>
+                    <p>Email: {user.email}</p>
+                    <p>Telefone: {user.phoneNumber}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* Modal */}
