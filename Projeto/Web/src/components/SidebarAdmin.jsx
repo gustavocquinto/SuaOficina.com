@@ -58,6 +58,10 @@ class Sidebar extends Component {
                                     <Link to="/dashallusers" id="profile" className="sidebar-content-btn">
                                         <p>Usuarios</p>
                                     </Link>
+
+                                    <Link to="/servicesType" id="servicetype" className="sidebar-content-btn">
+                                        <p>Tipos de Serviço</p>
+                                    </Link>
                                 </div>
                                 
                                 <Link to="/" className="sidebar-content-btn">

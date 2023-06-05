@@ -43,9 +43,6 @@ const routing = (
         <Route path="/servicesType" component={CreateServiceType} />
         <Route path="/createBudget" component={CreateBudget} />
         <Route path="/createService" component={CreateService} />
-
-
-        
         <Redirect to="/notfound" />
       </Switch>
     </div>
