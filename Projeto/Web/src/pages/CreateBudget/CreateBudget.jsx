@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import Swal from 'sweetalert2';
 import './CreateBudget.css';
+import Sidebar from '../../components/Sidebar';
+
+import SidebarAdmin from '../../components/SidebarAdmin';
 
 const CreateBudget = () => {
   const [totalValue, setTotalValue] = useState('');
@@ -16,9 +18,11 @@ const CreateBudget = () => {
   const [userVehicles, setUserVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
     fetchUsers();
+    fetchBudgets();
   }, []);
 
   const fetchUsers = async () => {
@@ -36,6 +40,15 @@ const CreateBudget = () => {
       setUserVehicles(response.data);
     } catch (error) {
       console.error('Error fetching user vehicles:', error);
+    }
+  };
+
+  const fetchBudgets = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/Budgets');
+      setBudgets(response.data);
+    } catch (error) {
+      console.error('Error fetching budgets:', error);
     }
   };
 
@@ -103,8 +116,20 @@ const CreateBudget = () => {
     }
   };
 
+  const handleDeleteBudget = async (budgetId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/Budgets/${budgetId}`);
+      fetchBudgets();
+      Swal.fire('Orçamento excluído com sucesso!', '', 'success');
+    } catch (error) {
+      console.error('Error deleting budget:', error);
+      Swal.fire('Ocorreu um erro ao excluir o orçamento.', '', 'error');
+    }
+  };
+
   return (
-    <div className="create-budget-container">
+    <SidebarAdmin>
+      <div className="create-budget-container">
       <h2>Cadastrar Budget</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -136,12 +161,21 @@ const CreateBudget = () => {
                 <div>
                   <label>Estimativa de Tempo:</label>
                   <input
-                    type="date"
+                    type="text"
                     value={timeEstimate}
                     onChange={(e) => setTimeEstimate(e.target.value)}
                   />
                 </div>
-               
+                {/* Outros campos do formulário */}
+                <div>
+                  <label>Valor Total:</label>
+                  <input
+                    type="text"
+                    value={totalValue}
+                    onChange={(e) => setTotalValue(e.target.value)}
+                  />
+                </div>
+                {/* Outros campos do formulário */}
                 <button type="submit" disabled={loading}>
                   {loading ? 'Aguarde...' : 'Cadastrar'}
                 </button>
@@ -150,8 +184,27 @@ const CreateBudget = () => {
           </>
         )}
       </form>
+
+      <h2>Orçamentos Cadastrados</h2>
+      {budgets.length === 0 ? (
+        <p>Nenhum orçamento cadastrado.</p>
+      ) : (
+        <ul>
+          {budgets.map((budget) => (
+            <li key={budget.id}>
+              <span>{budget.id}</span>
+              <span>{budget.totalValue}</span>
+              <span>{budget.timeEstimate}</span>
+              {/* Exibir outros dados do orçamento */}
+              <button onClick={() => handleDeleteBudget(budget.id)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {error && <p>{error}</p>}
     </div>
+      </SidebarAdmin>
   );
 };
 

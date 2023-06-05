@@ -1,74 +1,111 @@
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    font-size: 25px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    font-size: 18px;
-  }
-  
-  li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  li span {
-    display: flex;
-    align-items: center;
-  }
-  
-  li span svg {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  form {
-    margin-top: 20px;
-  }
-  
-  form div {
-    margin-bottom: 10px;
-  }
-  
-  label {
-    font-size: 18px;
-    display: block;
-    font-weight: bold;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #282F66;
-    color: #FFF;
-    border: 0;
-    border-radius: 5px;
-  }
+.create-service-type {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
-    button:hover {
-        background-color: #1E2255;
-    }
-  
-  button:last-child {
-    margin-right: 0;
-  }
-  
+.create-service-type-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.create-service-type-header h2 {
+  color: #282F66;
+  font-size: 28px;
+}
+
+.add-service-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #282F66;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-service-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.service-name-input {
+  width: 300px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #282F66;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #1E2352;
+}
+
+.service-types-table {
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  font-weight: bold;
+}
+
+.actions-column {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.edit-button, .delete-button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.edit-button:hover, .delete-button:hover {
+  color: #282F66;
+}
+
+.edit-button:focus, .delete-button:focus {
+  outline: none;
+}

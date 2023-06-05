@@ -4,6 +4,8 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import './CreateServiceType.css';
 
+import SidebarAdmin from '../../components/SidebarAdmin';
+
 const CreateServiceType = () => {
   const [typeName, setTypeName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -112,56 +114,79 @@ const CreateServiceType = () => {
 
   const handleEditServiceType = (serviceType) => {
     setEditingServiceType(serviceType);
-    setShowAddService(true);
     setTypeName(serviceType.typeName);
-    setError('');
+    handleToggleAddService();
   };
 
   const handleToggleAddService = () => {
-    setEditingServiceType(null);
     setShowAddService(!showAddService);
+    setEditingServiceType(null);
     setTypeName('');
     setError('');
   };
 
   return (
-    <div className="container">
-      {!showAddService && (
-        <>
-          <h2>Serviços prestados: </h2>
-          <ul>
-            {serviceTypes.map((serviceType) => (
-              <li key={serviceType.id}>
-                {serviceType.typeName}
-                <span>
-                  <FaEdit onClick={() => handleEditServiceType(serviceType)} />
-                  <FaTrash onClick={() => handleDeleteServiceType(serviceType.id, serviceType.typeName)} />
-                </span>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleToggleAddService}>Adicionar Novo Serviço</button>
-        </>
-      )}
+    <SidebarAdmin>
+        <div className="create-service-type">
+      <div className="create-service-type-header">
+        <h2>Gerenciar Tipos de Serviço</h2>
+        <button className="add-service-button" onClick={handleToggleAddService}>
+          {!showAddService ? 'Adicionar Serviço' : 'Cancelar'}
+        </button>
+      </div>
       {showAddService && (
-        <div>
-          <h2>{editingServiceType ? 'Editar Serviço' : 'Cadastrar Serviço'}</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Nome do Serviço:</label>
-              <input type="text" value={typeName} onChange={handleInputChange} />
-            </div>
-            <div>
-              <button type="submit" disabled={loading}>
-                {loading ? 'Aguarde...' : editingServiceType ? 'Atualizar' : 'Cadastrar'}
-              </button>
-              <button type="button" onClick={handleToggleAddService}>Cancelar</button>
-            </div>
-          </form>
-          {error && <p>{error}</p>}
-        </div>
+        <form className="add-service-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="service-name-input"
+            placeholder="Insira o nome do serviço"
+            value={typeName}
+            onChange={handleInputChange}
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="submit-button" disabled={loading}>
+            {editingServiceType ? 'Atualizar Serviço' : 'Cadastrar Serviço'}
+          </button>
+        </form>
       )}
+      <div className="service-types-table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome do Serviço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {serviceTypes.map((serviceType) => (
+              <tr key={serviceType.id}>
+                <td>{serviceType.id}</td>
+                <td>{serviceType.typeName}</td>
+                <td className="actions-column">
+                  <button
+                    className="edit-button"
+                    onClick={() => handleEditServiceType(serviceType)}
+                    disabled={loading}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteServiceType(serviceType.id, serviceType.typeName)}
+                    disabled={loading}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
+      </SidebarAdmin>
+    
   );
 };
 

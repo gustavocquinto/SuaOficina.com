@@ -62,6 +62,10 @@ class Sidebar extends Component {
                                     <Link to="/servicesType" id="servicetype" className="sidebar-content-btn">
                                         <p>Tipos de Serviço</p>
                                     </Link>
+
+                                    <Link to="/createBudget" id="budget" className="sidebar-content-btn">
+                                        <p>Orçamentos</p>
+                                    </Link>
                                 </div>
                                 
                                 <Link to="/" className="sidebar-content-btn">
