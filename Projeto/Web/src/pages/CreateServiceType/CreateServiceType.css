@@ -1,0 +1,74 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    font-size: 18px;
+  }
+  
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  li span {
+    display: flex;
+    align-items: center;
+  }
+  
+  li span svg {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  form div {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    font-size: 18px;
+    display: block;
+    font-weight: bold;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #282F66;
+    color: #FFF;
+    border: 0;
+    border-radius: 5px;
+  }
+
+    button:hover {
+        background-color: #1E2255;
+    }
+  
+  button:last-child {
+    margin-right: 0;
+  }
+  

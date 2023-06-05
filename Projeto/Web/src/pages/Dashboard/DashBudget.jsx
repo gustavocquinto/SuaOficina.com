@@ -88,7 +88,7 @@ class dash extends Component {
                                 {
                                     this.state.getUserInfo.map(budget => {
                                         return (
-                                            <img src={'http://localhost:5000/Images/' + budget.serviceImages[0].imagePath} alt="Imagem de um carro vermelho" draggable="false" />
+                                           <p></p>
                                         );
                                     })
                                 }

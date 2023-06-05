@@ -21,6 +21,7 @@ import dashbudget2 from './pages/Dashboard/DashBudget2';
 import UserVehiclePage from './pages/UserVehiclePage/UserVehiclePage';
 import CreateServiceType from './pages/CreateServiceType/CreateServiceType';
 import CreateBudget from './pages/CreateBudget/CreateBudget';
+import CreateService from './pages/Services/CreateService';
 
 
 const routing = (
@@ -41,6 +42,7 @@ const routing = (
         <Route path="/users/:userId/vehicles" component={UserVehiclePage} />
         <Route path="/servicesType" component={CreateServiceType} />
         <Route path="/createBudget" component={CreateBudget} />
+        <Route path="/createService" component={CreateService} />
 
 
         

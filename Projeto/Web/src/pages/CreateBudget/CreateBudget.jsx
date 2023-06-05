@@ -1,140 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import './CreateBudget.css';
 
 const CreateBudget = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [serviceTypes, setServiceTypes] = useState([]);
-  const [selectedServiceType, setSelectedServiceType] = useState(null);
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [totalValue, setTotalValue] = useState(0);
-  const [timeEstimate, setTimeEstimate] = useState(0);
+  const [totalValue, setTotalValue] = useState('');
+  const [timeEstimate, setTimeEstimate] = useState('');
   const [visitDate, setVisitDate] = useState('');
+  const [finalizationDate, setFinalizationDate] = useState('');
+  const [idVehicle, setIdVehicle] = useState('');
+  const [creationDate, setCreationDate] = useState('');
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState('');
+  const [userVehicles, setUserVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/Users')
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        setError('Erro ao carregar os usuários.');
-      });
-
-    axios.get('http://localhost:5000/api/ServiceTypes')
-      .then((response) => {
-        setServiceTypes(response.data);
-      })
-      .catch((error) => {
-        setError('Erro ao carregar os tipos de serviço.');
-      });
+    fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (selectedUser) {
-      axios.get(`http://localhost:5000/api/Vehicles/User/${selectedUser.id}`)
-        .then((response) => {
-          setVehicles(response.data);
-        })
-        .catch((error) => {
-          setError('Erro ao carregar os veículos.');
-        });
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/Users');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
     }
-  }, [selectedUser]);
-
-  useEffect(() => {
-    updateTotalValue(selectedServices);
-  }, [selectedServices]);
-
-  const handleUserSelect = (userId) => {
-    const selectedUser = users.find((user) => user.id === userId);
-    setSelectedUser(selectedUser);
   };
 
-  const handleVehicleSelect = (vehicleId) => {
-    const selectedVehicle = vehicles.find((vehicle) => vehicle.id === vehicleId);
-    setSelectedVehicle(selectedVehicle);
+  const fetchUserVehicles = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/Vehicles/user/${userId}`);
+      setUserVehicles(response.data);
+    } catch (error) {
+      console.error('Error fetching user vehicles:', error);
+    }
   };
 
-  const handleServicePriceChange = (serviceId, price) => {
-    const updatedServices = selectedServices.map((service) => {
-      if (service.id === serviceId) {
-        return {
-          ...service,
-          price: Number(price),
-        };
-      }
-      return service;
-    });
-    setSelectedServices(updatedServices);
+  const handleUserChange = (e) => {
+    const userId = e.target.value;
+    setSelectedUser(userId);
+    fetchUserVehicles(userId);
+    resetForm();
   };
 
-  const handleAddService = () => {
-    if (selectedServiceType) {
-      const newService = {
-        id: selectedServices.length + 1,
-        serviceDescription: selectedServiceType.typeName,
-        price: 0,
+  const handleIdVehicleChange = (e) => {
+    const vehicleId = e.target.value;
+    setIdVehicle(vehicleId);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setTotalValue('');
+    setTimeEstimate('');
+    setVisitDate('');
+    setFinalizationDate('');
+    setCreationDate('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError('');
+
+      const data = {
+        totalValue: parseFloat(totalValue),
+        timeEstimate: parseInt(timeEstimate),
+        visitDate: null,
+        finalizationDate: null,
+        idVehicle: idVehicle,
+        creationDate: new Date(),
+        userId: selectedUser,
       };
-      setSelectedServices([...selectedServices, newService]);
-    }
-  };
 
-  const handleServiceTypeSelect = (serviceTypeId) => {
-    const selectedServiceType = serviceTypes.find((serviceType) => serviceType.id === serviceTypeId);
-    setSelectedServiceType(selectedServiceType);
-  };
+      await axios.post('http://localhost:5000/api/Budgets', data);
 
-  const handleServiceDeselect = (serviceId) => {
-    setSelectedServices((prevServices) =>
-      prevServices.filter((service) => service.id !== serviceId)
-    );
-  };
-
-  const updateTotalValue = (services) => {
-    const total = services.reduce((sum, service) => sum + (service.price || 0), 0);
-    setTotalValue(total);
-  };
-
-  const handleSubmit = () => {
-    if (!selectedUser || !selectedVehicle) {
-      setError('Selecione um usuário e um veículo.');
-      return;
-    }
-
-    setLoading(true);
-
-    const budget = {
-      idUser: selectedUser.id,
-      idVehicle: selectedVehicle.id,
-      visitDate,
-      timeEstimate,
-      totalValue,
-    };
-
-    axios
-      .post('http://localhost:5000/api/Budgets', budget)
-      .then((response) => {
-        console.log('Budget created:', response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError('Erro ao criar o orçamento.');
-        setLoading(false);
+      Swal.fire({
+        title: 'Budget cadastrado com sucesso!',
+        text: 'Deseja cadastrar os serviços para este orçamento agora?',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirecionar para a página de cadastro de serviços
+          // Aqui você pode colocar o código para redirecionar ou usar o react-router-dom
+        } else {
+          resetForm();
+          setSelectedUser('');
+          setUserVehicles([]);
+        }
       });
+    } catch (error) {
+      setError('Ocorreu um erro ao cadastrar o Budget.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <h2>Criar Orçamento</h2>
-
-      <div>
-        <label>
-          Usuário:
-          <select onChange={(e) => handleUserSelect(e.target.value)}>
+    <div className="create-budget-container">
+      <h2>Cadastrar Budget</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Usuário:</label>
+          <select value={selectedUser} onChange={handleUserChange}>
             <option value="">Selecione um usuário</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
@@ -142,110 +117,40 @@ const CreateBudget = () => {
               </option>
             ))}
           </select>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Veículo:
-          <select onChange={(e) => handleVehicleSelect(e.target.value)}>
-            <option value="">Selecione um veículo</option>
-            {vehicles.map((vehicle) => (
-              <option key={vehicle.id} value={vehicle.id}>
-                {vehicle.modelName} - {vehicle.brandName}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Data de visita:
-          <input
-            type="date"
-            value={visitDate}
-            onChange={(e) => setVisitDate(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Tempo estimado:
-          <input
-            type="number"
-            value={timeEstimate}
-            onChange={(e) => setTimeEstimate(Number(e.target.value))}
-          />
-        </label>
-      </div>
-
-      <div>
-        <h3>Serviços Selecionados</h3>
-        {selectedServices.length === 0 ? (
-          <p>Nenhum serviço selecionado.</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Descrição</th>
-                <th>Preço</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedServices.map((service) => (
-                <tr key={service.id}>
-                  <td>{service.serviceDescription}</td>
-                  <td>
-                    <input
-                      type="number"
-                      value={service.price}
-                      onChange={(e) =>
-                        handleServicePriceChange(service.id, e.target.value)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <button onClick={() => handleServiceDeselect(service.id)}>
-                      Remover
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        </div>
+        {selectedUser && (
+          <>
+            <div>
+              <label>Veículo:</label>
+              <select value={idVehicle} onChange={handleIdVehicleChange}>
+                <option value="">Selecione um veículo</option>
+                {userVehicles.map((vehicle) => (
+                  <option key={vehicle.id} value={vehicle.id}>
+                    {vehicle.modelName} - {vehicle.licensePlate}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {idVehicle && (
+              <>
+                <div>
+                  <label>Estimativa de Tempo:</label>
+                  <input
+                    type="date"
+                    value={timeEstimate}
+                    onChange={(e) => setTimeEstimate(e.target.value)}
+                  />
+                </div>
+               
+                <button type="submit" disabled={loading}>
+                  {loading ? 'Aguarde...' : 'Cadastrar'}
+                </button>
+              </>
+            )}
+          </>
         )}
-      </div>
-
-      <div>
-        <h3>Adicionar Serviço</h3>
-        <select
-          onChange={(e) => handleServiceTypeSelect(e.target.value)}
-          value={selectedServiceType?.id || ''}
-        >
-          <option value="">Selecione um tipo de serviço</option>
-          {serviceTypes.map((serviceType) => (
-            <option key={serviceType.id} value={serviceType.id}>
-              {serviceType.typeName}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleAddService}>Adicionar</button>
-      </div>
-
-      <div>
-        <h3>Resumo do Orçamento</h3>
-        <p>Valor Total: R$ {totalValue}</p>
-      </div>
-
-      <div>
-        {error && <p>{error}</p>}
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Enviando...' : 'Enviar'}
-        </button>
-      </div>
+      </form>
+      {error && <p>{error}</p>}
     </div>
   );
 };

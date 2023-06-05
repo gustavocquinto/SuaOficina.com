@@ -1,0 +1,68 @@
+.create-budget-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .create-budget-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .create-budget-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-budget-container label {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .create-budget-container select,
+  .create-budget-container input[type="number"],
+  .create-budget-container input[type="date"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .create-budget-container button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    background-color: #282F66;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+    .create-budget-container button:hover {
+        background-color: #1E2255;
+    }
+
+    .create-budget-container button:active {
+        background-color: #14173D;
+    }
+
+    
+  
+  .create-budget-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .create-budget-container p {
+    color: red;
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
