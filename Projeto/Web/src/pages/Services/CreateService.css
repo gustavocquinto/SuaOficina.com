@@ -1,0 +1,83 @@
+.create-service-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .create-service-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .create-service-container form div {
+    margin-bottom: 10px;
+  }
+  
+  .create-service-container label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .create-service-container select,
+  .create-service-container input[type='text'],
+  .create-service-container input[type='number'],
+  .create-service-container textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .create-service-container button[type='submit'] {
+    background-color: #034892;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .create-service-container button[type='submit']:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .create-service-container input[type='date'] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .manage-service-types-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 24px;
+    margin-right: 24px;
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4c4eaf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .manage-service-types-button:hover {
+    animation: 5s;
+    background-color: #0e0469;
+  }
+  
+  .manage-service-types-button:focus {
+    outline: none;
+  }
+  

@@ -23,7 +23,8 @@
 }
 
 .create-budget-container select,
-.create-budget-container input[type='text'] {
+.create-budget-container input[type='text'],
+.create-budget-container input[type='date'] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -31,7 +32,8 @@
   font-size: 16px;
 }
 
-.create-budget-container button[type='submit'] {
+.create-budget-container button[type='submit'],
+.button-style {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -41,7 +43,8 @@
   cursor: pointer;
 }
 
-.create-budget-container button[type='submit']:disabled {
+.create-budget-container button[type='submit']:disabled,
+.button-style:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }

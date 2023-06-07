@@ -90,7 +90,7 @@ class Services extends Component {
       <>
         <Sidebar>
           <div className="services-header">
-            <Link to="/budgets" className="services-header-back">{'< Chevrolet Onix'}</Link>
+            <Link to="/home" className="services-header-back">{'< Chevrolet Onix'}</Link>
             <div className="services-title">
               <h1>Orçamento #0001</h1>
             </div>

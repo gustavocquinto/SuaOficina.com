@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import './CreateBudget.css';
 import Sidebar from '../../components/Sidebar';
+import { NumericFormat } from 'react-number-format';
 
 import SidebarAdmin from '../../components/SidebarAdmin';
 
@@ -130,7 +131,7 @@ const CreateBudget = () => {
   return (
     <SidebarAdmin>
       <div className="create-budget-container">
-      <h2>Cadastrar Budget</h2>
+      <h2>Cadastrar Orçamento</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Usuário:</label>
@@ -161,20 +162,44 @@ const CreateBudget = () => {
                 <div>
                   <label>Estimativa de Tempo:</label>
                   <input
-                    type="text"
+                    type="date"
+                    onChange={(e) => {
+                      const selectedDate = new Date(e.target.value);
+                      const day = String(selectedDate.getDate() + 1).padStart(2, '0');
+                      const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                      const year = selectedDate.getFullYear();
+                      const formattedDate = `${day}/${month}/${year}`;
+                      setTimeEstimate(formattedDate);
+                    }}
                     value={timeEstimate}
-                    onChange={(e) => setTimeEstimate(e.target.value)}
                   />
                 </div>
+                <label> Data escolhida: {timeEstimate}  </label>
                 {/* Outros campos do formulário */}
                 <div>
+                <div>
                   <label>Valor Total:</label>
-                  <input
-                    type="text"
+                  <NumericFormat
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    prefix="R$"
                     value={totalValue}
-                    onChange={(e) => setTotalValue(e.target.value)}
+                    onValueChange={({ value }) => {
+                      const cleanedValue = value.replace(/[.,]/g, '');
+                      setTotalValue(cleanedValue);
+                    }}
+                    format={(value) => {
+                      if (!value) return '';
+                      const numberValue = value.replace(/[^0-9]+/g, '');
+                      const formattedValue = new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(Number(numberValue) / 100);
+                      return formattedValue;
+                    }}
                   />
                 </div>
+              </div>
                 {/* Outros campos do formulário */}
                 <button type="submit" disabled={loading}>
                   {loading ? 'Aguarde...' : 'Cadastrar'}
@@ -189,17 +214,30 @@ const CreateBudget = () => {
       {budgets.length === 0 ? (
         <p>Nenhum orçamento cadastrado.</p>
       ) : (
-        <ul>
-          {budgets.map((budget) => (
-            <li key={budget.id}>
-              <span>{budget.id}</span>
-              <span>{budget.totalValue}</span>
-              <span>{budget.timeEstimate}</span>
-              {/* Exibir outros dados do orçamento */}
-              <button onClick={() => handleDeleteBudget(budget.id)}>Excluir</button>
-            </li>
-          ))}
-        </ul>
+        <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Valor</th>
+            <th>Data Estimada</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+        {budgets.map((budget) => (
+          <tr key={budget.id}>
+            <td>{budget.id}</td>
+            <td>{budget.totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>{budget.timeEstimate}</td>
+            <td>
+              <button className="button-style" onClick={() => handleDeleteBudget(budget.id)}>
+                Excluir
+              </button>
+            </td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
       )}
 
       {error && <p>{error}</p>}

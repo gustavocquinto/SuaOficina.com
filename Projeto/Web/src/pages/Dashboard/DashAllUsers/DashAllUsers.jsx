@@ -179,8 +179,12 @@ class DashAllUsers extends Component {
                         </div>
 
                         <div className="modal-vehicle-card-form-input">
-                          <input type="text" placeholder="Tipo de usuário" name="userType" value={newUser.userType}
-                            onChange={this.handleNewUserChange} required />
+                          <select name="userType" value={newUser.userType} onChange={this.handleNewUserChange} required>
+                            <option value="">Selecione o tipo de usuário</option>
+                            <option value="0">Administrador</option>
+                            <option value="1">Funileiro</option>
+                            <option value="2">Usuário</option>
+                          </select>
                         </div>
 
                         <div className="modal-vehicle-card-form-input">

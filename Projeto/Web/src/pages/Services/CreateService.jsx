@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+import './CreateService.css'; // Importando o arquivo CSS personalizado
+import SidebarAdmin from '../../components/SidebarAdmin';
 
 const CreateService = () => {
   const [serviceDescription, setServiceDescription] = useState('');
@@ -15,6 +19,7 @@ const CreateService = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
 
   useEffect(() => {
     fetchUsers();
@@ -105,7 +110,6 @@ const CreateService = () => {
         idVehicle: selectedBudgetObject.vehicle.id,
         idBudget: selectedBudget
       };
-      
 
       console.log(data); // Log the data for debugging purposes
 
@@ -127,14 +131,19 @@ const CreateService = () => {
   };
 
   return (
-    <div>
-      <h2>Create Service</h2>
+    <SidebarAdmin>
+      <div className="create-service-container"> {/* Adicionando a classe CSS */}
+      <h2>Cadastrar serviço</h2>
+      <Link to="/servicesType">
+        <button className="manage-service-types-button">Gerenciar tipos de serviço</button>
+      </Link>
+     
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>User:</label>
+          <label>Usuário:</label>
           <select value={selectedUser} onChange={handleUserChange}>
-            <option value="">Select user</option>
+            <option value="">Selecione o usuário</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.username}
@@ -144,9 +153,9 @@ const CreateService = () => {
         </div>
         {selectedUser && (
           <div>
-            <label>Budget:</label>
+            <label>Orçamento:</label>
             <select value={selectedBudget} onChange={handleBudgetChange}>
-              <option value="">Select budget</option>
+              <option value="">Selecione o orçamento</option>
               {budgets.map((budget) => (
                 <option key={budget.id} value={budget.id}>
                   {budget.id}
@@ -156,9 +165,9 @@ const CreateService = () => {
           </div>
         )}
         <div>
-          <label>Service Type:</label>
+          <label>Tipo de serviço:</label>
           <select value={selectedService} onChange={handleServiceChange}>
-            <option value="">Select service</option>
+            <option value="">Selecione o serviço</option>
             {services.map((service) => (
               <option key={service.id} value={service.id}>
                 {service.typeName}
@@ -167,23 +176,28 @@ const CreateService = () => {
           </select>
         </div>
         <div>
-          <label>Service Description:</label>
+          <label>Descrição do serviço:</label>
           <input type="text" value={serviceDescription} onChange={(e) => setServiceDescription(e.target.value)} />
         </div>
         <div>
-          <label>Price:</label>
-          <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <label>Preço:</label>
+          <input type="number" step="1.00"value={price} onChange={(e) => setPrice(e.target.value)} />
         </div>
         <div>
-          <label>Observations:</label>
+          <label>Observações:</label>
           <textarea value={observations} onChange={(e) => setObservations(e.target.value)} />
         </div>
         <div>
-          <label>Service Status:</label>
-          <input type="text" value={serviceStatus} onChange={(e) => setServiceStatus(e.target.value)} />
+          <label>Status de serviço:</label>
+          <select required value={serviceStatus} onChange={(e) => setServiceStatus(e.target.value)}>
+            <option value="">Selecione o status</option>
+            <option value="2">Pendente</option>
+            <option value="1">Em Andamento</option>
+            <option value="0">Finalizado</option>
+          </select>
         </div>
         <div>
-          <label>Creation Date:</label>
+          <label>Data de entrada:</label>
           <input type="date" value={creationDate} onChange={(e) => setCreationDate(e.target.value)} />
         </div>
         <button type="submit" disabled={loading}>
@@ -191,6 +205,8 @@ const CreateService = () => {
         </button>
       </form>
     </div>
+    </SidebarAdmin>
+    
   );
 };
 

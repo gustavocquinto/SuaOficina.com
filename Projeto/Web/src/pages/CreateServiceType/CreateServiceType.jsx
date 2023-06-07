@@ -129,9 +129,9 @@ const CreateServiceType = () => {
     <SidebarAdmin>
         <div className="create-service-type">
       <div className="create-service-type-header">
-        <h2>Gerenciar Tipos de Serviço</h2>
+        <h2>Gerenciar Categorias de Serviço</h2>
         <button className="add-service-button" onClick={handleToggleAddService}>
-          {!showAddService ? 'Adicionar Serviço' : 'Cancelar'}
+          {!showAddService ? 'Adicionar Categoria' : 'Cancelar'}
         </button>
       </div>
       {showAddService && (

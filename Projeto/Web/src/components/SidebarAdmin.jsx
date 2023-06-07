@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // Styles
 import '../assets/styles/reset.css';
 import '../assets/styles/components/sidebar.css';
+import mainLogo from './logo.png';
 
 function toggleClickBtn(){
     const URL = window.location.pathname;
@@ -46,21 +47,27 @@ class Sidebar extends Component {
                     <div className="sidebar-background">
                         <div className="sidebar-content">
                             <div className="sidebar-content-logo">
-                                <p>Funilaria<br />Dois Irmãos</p>
+                            <img width="200px"src={mainLogo}></img>
+                            
                             </div>
 
                             <div className="sidebar-content-btns">
                                 <div className="sidebar-content-btns-main">
+                                    <Link to="/dashallusers" id="control-panel" className="sidebar-content">
+                                        <h2>Painel de Controle</h2>
+                                        <hr></hr>
+                                    </Link>
+                                    <br></br>
                                     <Link to="/dashallbudget" id="vehicles" className="sidebar-content-btn">
-                                        <p>Orçamentos</p>
+                                        <p>Lista de Orçamentos</p>
                                     </Link>
 
                                     <Link to="/dashallusers" id="profile" className="sidebar-content-btn">
                                         <p>Usuarios</p>
                                     </Link>
 
-                                    <Link to="/servicesType" id="servicetype" className="sidebar-content-btn">
-                                        <p>Tipos de Serviço</p>
+                                    <Link to="/createService" id="servicetype" className="sidebar-content-btn">
+                                        <p>Serviços</p>
                                     </Link>
 
                                     <Link to="/createBudget" id="budget" className="sidebar-content-btn">

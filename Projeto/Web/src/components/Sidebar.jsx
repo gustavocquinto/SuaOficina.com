@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 // Styles
 import '../assets/styles/reset.css';
 import '../assets/styles/components/sidebar.css';
+import mainLogo from './logo.png';
+
 
 function toggleClickBtn(){
     const URL = window.location.pathname;
@@ -46,7 +48,7 @@ class Sidebar extends Component {
                     <div className="sidebar-background">
                         <div className="sidebar-content">
                             <div className="sidebar-content-logo">
-                                <p>Funilaria<br />Dois Irmãos</p>
+                            <img width="200px"src={mainLogo}></img>
                             </div>
 
                             <div className="sidebar-content-btns">
